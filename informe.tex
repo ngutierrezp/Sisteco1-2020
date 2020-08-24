@@ -1,0 +1,115 @@
+\documentclass[12pt,letterpaper]{article}
+
+% Librerías a utilizar
+\usepackage{float} % para libre imagen
+\usepackage{listings}  %bloque de codigo 
+\usepackage[utf8]{inputenc}	% Codificación 
+\usepackage[spanish]{babel}	% Idioma
+\usepackage{natbib}			% Bibliografía
+\usepackage{graphicx}		% Imagenes
+\usepackage{indentfirst}		% Sangría
+\usepackage{amsmath, amsfonts, amssymb}	% Figuras matemáticas
+\usepackage{url}    % URL
+\renewcommand{\listtablename}{Índice de tablas}
+\renewcommand{\tablename}{Tabla}
+
+\usepackage[left=3cm,right=2cm,top=2cm,bottom=3cm]{geometry}
+
+\setlength{\parindent}{2cm}	% Sangría en los párrafos
+\renewcommand{\baselinestretch}{1.5}	% Interlineado
+
+% Renombrar ciertos títulos del texto
+\renewcommand\spanishcontentsname{Tabla de contenidos}
+\renewcommand\spanishrefname{Bibliografía}
+
+% Inicio del documento
+\begin{document}
+
+%%%%%%%%% PORTADA %%%%%%%%%
+
+\newpage
+\vspace*{-1cm}
+% Logo institucional
+\begin{picture}(18,4)(0,30)
+	\put(-100,-20){\includegraphics[scale=0.7]{./images/logo_usach.jpg}}
+\end{picture}
+
+\sloppy
+\thispagestyle{empty}
+\vspace*{2cm}
+
+% Datos institucionales
+\begin{center}
+	{\bf \mbox{\large UNIVERSIDAD DE SANTIAGO DE CHILE}}\\
+	{\bf \mbox{FACULTAD DE INGENIER\'IA}}\\
+	{\bf \mbox{DEPARTAMENTO DE INGENIER\'IA INFORM\'ATICA}}\\
+\end{center}
+
+	\vspace{4cm}
+	%Nombre asignatura
+	\begin{center}
+	\Large
+		\textbf{Sistemas de comunicación}
+	\end{center}
+	
+	%Título del trabajo
+	\begin{center}
+	\Large
+		\textbf{Laboratorio N 1: Capa de enlace}
+	\end{center}
+	
+	
+	% Datos personales
+	\vspace*{3.25cm}
+	\begin{flushright}
+		\begin{tabular}[t]{l l}
+			Integrantes: &Nicolás Gutiérrez  \\			\\
+			Ayudantes: &Catalina Morales\\
+			           &Fernanda Muñoz\\\\
+			
+			Profesor(a): &Carlos Gonzalez Cortes
+
+		\end{tabular}
+	\end{flushright}
+	\begin{center}
+		\vspace{1.5cm}
+		\today
+	\end{center}
+
+\newpage
+\tableofcontents
+\thispagestyle{empty}
+
+\newpage
+\renewcommand{\thepage}{\arabic{page}}
+\setcounter{page}{1}
+
+% Capítulos agregados 
+\include{chapters/1-introduccion}
+\include{chapters/2-marco-teorico}
+\include{chapters/3-desarrollo-resultados}
+\include{chapters/4-analisis-resultados}
+\include{chapters/5-conclusion}
+
+\clearpage
+
+
+\begin{thebibliography}{X}
+\bibitem{ElTiempo} Europa Press. (2018, Diciembre 13). <<Más de la mitad de la población mundial tiene acceso a internet>>. Visitado en Mayo 29, 2020, desde https://www.eltiempo.com/tecnosfera/novedades-tecnologia/mas-de-la-mitad-de-la-poblacion-mundial-tiene-acceso-a-internet-304778
+
+
+\bibitem{maxMAC} Jiménez, J. (2019, Marzo 24). <<Este es el máximo número de dispositivos que pueden conectarse a un router y así puedes modificarlo. >> Visitado en Junio 01, 2020, desde https://www.redeszone.net/2019/03/24/numero-maximo-dispositivos-router/
+
+\bibitem{Mundo} Mundo Pacifico (2020, Mayo 13). <<Características De Servicio De Internet.>> Visitado en Junio 01, 2020, desde https://www.mundopacifico.cl/terminos-regulaciones/caracteristicas-de-servicio-de-internet/
+
+\bibitem{icmp} How, K. (2019, Marzo 5). <<¿Qué es el protocolo ICMP y cómo funciona?>> Visitado en Junio 03, 2020, desde https://www.ionos.es/digitalguide/servidores/know-how/que-es-el-protocolo-icmp-y-como-funciona/
+
+\bibitem{MAC} FM, Y. (2017, Octubre 5). Qué es la dirección MAC de tu ordenador, del móvil o de cualquier dispositivo. Visitado en Junio 3, 2020, desde https://www.xataka.com/basics/que-es-la-direccion-mac-de-tu-ordenador-del-movil-o-de-cualquier-dispositivo
+
+\end{thebibliography}
+
+
+
+\nocite{*}
+
+\end{document}
