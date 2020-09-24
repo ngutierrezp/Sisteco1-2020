@@ -1,0 +1,5 @@
+as mentioned earlier, you can use these methods to only 
+load small chunks of the file at a time. to do this with
+these methods, you can pass a parameter to them telling
+how many bytes to load at a time. this is the only argument
+these methods accept.
