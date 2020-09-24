@@ -1,159 +1,133 @@
-
-
 ##################################
 # Lab 3: Cryptography
 ##################################
 
+# Nicolás Gutiérrez
+# nicolas.gutierrez.p@usach.cl
 
 
 import numpy as np
-from sympy import Matrix
+from os import system
+import sys
+import time 
+import random
+import math
 
-ALPHABET = ["a", "b", "c", "d","e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "ñ", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",",","."," ","-","?"]
+### importamos los modulos:
 
-
-
-def hill_cipher(matrix_key,message):
-    '''
-    ------------
-    DESCRIPCIÓN:
-    Función para el cifrado de hill, su funcionamiento es por medio de la multiplicación
-    de matrices, por lo que es necesario primeramente el uso de la libreria Numpy.
-
-    :param matrix_key:  (numpy matrix) 
-        Representa la llave que se utiliza para el cifrado. Debe ser
-        una matriz cuadrada cuyo determinante sea distinto de 0 ya que debe
-        ser posible invertirla.
-
-    :param message:     (string)
-        Representa el mensaje que se va a cifrar, debe contener solo letras  
-        letras minusculas y puede contener caracteres especiales.
+from modules.menu import main_menu
+from modules.cipher import hill_cipher, hill_decrypted
+from modules.alphabet import getAlphabet
+from modules.utilities import getRandomKey, getModularMatrix
 
 
-    :return:            (string)       
-        La función da como salida el mensaje cifrado, este mensaje puede que sea
-        más largo que el primero debido a que se añadan caracteres especiales 
-        para completar la matriz.
-    ------------
-    FUNCIONAMIENTO:
-    
-    El funcionamiento de la función se limita a la multiplicación de matrices, si se
-    tiene la matriz llave K, y el mesnsaje a cifras, primero se transforma el mensaje
-    a Matriz con los indices del alfabeto definido. Por ejemplo si queremos cifrar
-    'hola', los indices  serian : 7, 15, 11, 0 :
-
-        hola ->      7   11
-                    15    0
-
-    Por lo que ahora basta con multiplicar la matriz K por la matriz del mensaje X
-    quedando una transformación lineal de la forma Y= K*X                    
-
-    
+# NOTA: Ejecutar desde main.py
 
 
 
+if __name__ == "__main__":
+    op = 0
+    key = []
 
+    message = ""
 
+    while not (op in [6,9]):
+        op = main_menu(key)
 
+        if op == 1: 
+            key = []
+        elif op == 2:
+            message = input('Ingrese el mensaje a cifrar : ')
+            print("Tamaño de mensaje : "+ str(sys.getsizeof(message))+ " Bytes")
+            print("Cifrando mensaje ...")
+            start = time.time()
+            mes_cipher = hill_cipher(key,message)
+            end = time.time()
+            print("El cifrado ha tardado : " + str(end-start) + " segundos")
+            print('Mensaje cifrado: \n')
+            print(mes_cipher)
+            print('\n')
+            input("Precione cualquier tecla para continuar ... ")
+        elif op == 3:
+            fileName = input('Ingrese el nombre / dirección del archivo a leer: ')
+            try:
+                print('Cifrando Archivo ...')
+                f1 = open('./cipher.txt','w',encoding='utf-8')
+                f = open(fileName,'r',encoding='utf-8')
+                list_lines = f.read().splitlines()
+                for line in list_lines:
+                    cipher_line = hill_cipher(key,line)
+                    f1.write(cipher_line)
+                    f1.write('\n')
+                f.close()
+                f1.close()
+                print('Archivo cifrado en cipher.txt')
+                input("Precione cualquier tecla para continuar ... ")
 
-
-
-    '''
-
-    cipher_matrix = []
-    colnum = np.shape(matrix_key)[1]
-    cipher_message = ""
-
-    for letter in message:        
-        index = ALPHABET.index(letter)
-        cipher_matrix.append( index )
-        range()
-
-    mod = len(cipher_matrix) % colnum
-
-    
-    if mod != 0 :
-        for i in range(colnum - mod):
-            index = ALPHABET.index('-')
-            cipher_matrix.append( index )
-    
-    np_array = np.array(cipher_matrix)
-    
-    np_array = np.reshape(np_array,(colnum,-1),order='F')
-    
-    result_matriz = np.matmul(matrix_key, np_array) % len(ALPHABET)
-
-    for row in np.transpose(result_matriz):
-        for index in row:
+            except:
+                print('[ERROR]: No fue posible abrir el archivo, verifique el nombre o ubicación!')
+        elif op == 4: 
+            message = input('Ingrese el mensaje a descifrar : ')
+            print("Descifrando mensaje ...")
             
-            cipher_message += ALPHABET[int(index)]
+            mes_decipher = hill_decrypted(key,message)
+            
+            print('Mensaje Descifrado: \n')
+            print(mes_decipher)
 
+            print("\n")
+            input("Precione cualquier tecla para continuar ... ")
+        elif op == 5: 
+            fileName = input('Ingrese el nombre / dirección del archivo a leer: ')
+            try:
+                print('Descifrando Archivo ...')
+                f1 = open('./descipher.txt','w',encoding='utf-8')
+                f = open(fileName,'r',encoding='utf-8')
+                list_lines = f.read().splitlines()
+                for line in list_lines:
+                    descipher_line = hill_decrypted(key,line)
+                    f1.write(descipher_line)
+                    f1.write('\n')
+                f.close()
+                f1.close()
+                print('Archivo descifrado en descipher.txt')
+                input("Precione cualquier tecla para continuar ... ")
+            except:
+                print('[ERROR]: No fue posible abrir el archivo, verifique el nombre o ubicación!')
+            
+        elif op == 7: 
+            key = getRandomKey(len(getAlphabet()))
+        elif op == 8: 
+            key = []
+            det = 0
 
-    return(cipher_message)
+            while det == 0:
+                print('''
+                    La Clave a ingresar debe cumplir ciertas condiciones:
+                        1.- El total de numeros debe ser un numero cuadratico. Ejemplo:
+                                2 , 4 , 9 , 16 , 25 .... etc
+                        2.- Solo se deben ingresar numeros
+                        3.- El determinante de la clave a ingresar debe ser distinto de 0
+                        4.- Los numeros deben estar separados por UN espacio
+                    ''')
+                string_key = input("Ingrese la serie de numeros: ")
+                try:
+                    list_key = string_key.split()
+                    for char in list_key:
+                        key.append(int(char))
+                    size = int( math.sqrt(len(key)) )
+                    key = np.array(key)
+                    key = np.reshape(key, (size,size))
+                    getModularMatrix(key)
+                    det = 1
+                except:
+                    print('[ERROR]: La matriz ingresada no cumple con las condiciones!!')
+                    det = 0
+                    key = []
+                    
+    print('Adiós')
+            
 
-    
-def getFactorMod(number,mod_number):
-    
-    for i in range(mod_number):
-        
-        if i* int(number) % mod_number == 1:
-            return i
-
-
-
-def hill_decrypted(matrix_key,message):
-
-    inverse_matrix = Matrix(matrix_key)
-    inverse_matrix = inverse_matrix.inv_mod(len(ALPHABET)) # modular inverse matrix
-    inverse_matrix = np.array(inverse_matrix)
-    print(inverse_matrix)
-
-    new_matrix_key = []
-    for row in inverse_matrix:
-        for i in row:
-            new_matrix_key.append(int(i))
-    
-    new_matrix_key = np.array(new_matrix_key).reshape(np.shape(matrix_key)[0],np.shape(matrix_key)[1])
-
-
-    decrypted_matrix = []
-    colnum = np.shape(new_matrix_key)[1]
-    decrypted_message = ""
-
-    for letter in message:        
-        index = ALPHABET.index(letter)
-        decrypted_matrix.append( index )
-    
-    np_array = np.array(decrypted_matrix)
-    
-
-    np_array = np.reshape(np_array,(colnum,-1),order='F')
-    
-    
-    result_matriz = np.matmul(new_matrix_key, np_array) % len(ALPHABET)
-    
-    
-    
-    for row in np.transpose(result_matriz):
-        for index in row:
-            decrypted_message += ALPHABET[int(index)]
-    
-
-    return(decrypted_message)
-
-
-
-
-
-
-
-a_2d = np.array([6,24,1,13,16,10,20,17,15]).reshape((3, 3))
-print(a_2d)
-
-mes = hill_cipher(a_2d,"mi nombre es nicolas y el---- tuyo cual es ")
-print(mes)
-mes2 = hill_decrypted(a_2d,mes)
-print(mes2)
 
 
 
