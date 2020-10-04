@@ -7,4 +7,4 @@ Repositorio de laboratorios de Sistemas de comunicación 1-2020
 ## Listado de Labs
 - Laboratorio 1: [Capa de Enlace](https://es.overleaf.com/read/zgnjbjvhrgyb)
 - Laboratorio 2: [Capa de Red y Transporte](https://es.overleaf.com/read/cnfmhdcfpkfp)
-- Laboratorio 3: [Criptografía](lab3)
+- Laboratorio 3: [Criptografía](Lab3)
