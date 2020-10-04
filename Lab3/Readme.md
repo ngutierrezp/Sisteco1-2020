@@ -1,5 +1,9 @@
 # Lab 3 : Criptografía
 
+## Informe
+
+El informe está disponible [aqui](https://es.overleaf.com/read/gmndstvmnxtt) por medio de overleaf.
+
 ## Objetivo
 Esta  experiencia tiene como objetivo ahondar en los conceptos de criptografía, criptoanálisis  y cómo desarrollar un buen sistema de encriptación simétrico de información para encubrir los posibles ciberataques.
 
